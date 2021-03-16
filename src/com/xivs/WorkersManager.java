@@ -132,39 +132,51 @@ public class WorkersManager {
             XMLOutputFactory factory = XMLOutputFactory.newInstance();
             XMLStreamWriter writer = factory.createXMLStreamWriter(new FileWriter(new File(path)));
             writer.writeStartElement("Workers");
+            writer.writeCharacters("\n\t");
             for (String key : this.workers.keySet()) {
                 Worker w = workers.get(key);
                 Organization org = (Organization) w.get().attachments.get("organization").getObject();
                 Coordinates coords = (Coordinates) w.get().attachments.get("coordinates").getObject();
                 Address addr = (Address) org.get().attachments.get("address").getObject();
                 writer.writeStartElement(key);
+                writer.writeCharacters("\n\t");
                 for(String param: w.get().body.keySet()){
                     writer.writeStartElement(param);
                     writer.writeCharacters(w.get().body.get(param));
                     writer.writeEndElement();
+                    writer.writeCharacters("\n\t");
+
                 }
                 writer.writeStartElement("organization");
+                writer.writeCharacters("\n\t");
                 for(String param: org.get().body.keySet()){
                     writer.writeStartElement(param);
                     writer.writeCharacters(org.get().body.get(param));
                     writer.writeEndElement();
+                    writer.writeCharacters("\n\t");
                 }
                 writer.writeStartElement("address");
+                writer.writeCharacters("\n\t");
                 for(String param1: addr.get().body.keySet()) {
                     writer.writeStartElement(param1);
                     writer.writeCharacters(addr.get().body.get(param1));
                     writer.writeEndElement();
+                    writer.writeCharacters("\n\t");
                 }
                 writer.writeEndElement();
                 writer.writeEndElement();
                 writer.writeStartElement("coordinates");
+                writer.writeCharacters("\n\t");
                 for(String param: coords.get().body.keySet()){
                     writer.writeStartElement(param);
                     writer.writeCharacters(coords.get().body.get(param));
                     writer.writeEndElement();
+                    writer.writeCharacters("\n\t");
                 }
                 writer.writeEndElement();
+                writer.writeCharacters("\n\t");
                 writer.writeEndElement();
+                writer.writeCharacters("\n\t");
             }
             writer.writeEndElement();
             writer.flush();

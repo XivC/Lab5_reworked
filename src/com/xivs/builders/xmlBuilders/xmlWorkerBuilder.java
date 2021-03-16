@@ -43,6 +43,8 @@ public class xmlWorkerBuilder {
         if(org_resp.status.equals(Status.ERROR) | coords_resp.status.equals(Status.ERROR)) return Response.STANDART_ERROR();
         Organization org = (Organization)org_resp.attachments.get("organization").getObject();
         Coordinates coords = (Coordinates) coords_resp.attachments.get("coordinates").getObject();
+
+        System.out.println(rq_body);
         Response build_resp = Worker.create(new Request(rq_body, new HashMap<String, com.xivs.dataTransfer.DataTransference>(){{
             put("organization", org);
             put("coordinates", coords);
