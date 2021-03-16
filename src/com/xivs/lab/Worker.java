@@ -81,12 +81,12 @@ public class Worker extends DataTransference<Worker> {
         Organization organization = (Organization)rq.attachments.get("organization").getObject();
         Coordinates coordinates = (Coordinates)rq.attachments.get("coordinates").getObject();
         Worker w = new Worker(name, salary, creationDate, endDate, status, position, organization, coordinates);
-        if(rq.body.get("id") != null) w.update(new Request(new HashMap<>(){{put("id", rq.body.get("id") );}}, new HashMap<>()));
+        if(rq.body.get("id") != null) w.update(new Request(new HashMap<String, String>(){{put("id", rq.body.get("id") );}}, new HashMap<String, DataTransference>()));
         return new Response(
-                new ArrayList<>(),
+                new ArrayList<String>(),
                 com.xivs.dataTransfer.Status.SUCCESS,
-                new HashMap<>(),
-                new HashMap<>(){{
+                new HashMap<String, String>(),
+                new HashMap<String, DataTransference>(){{
                     put("worker", w);
                 }}
 
@@ -100,9 +100,9 @@ public class Worker extends DataTransference<Worker> {
     public Response get(){
         Worker w = this;
         return new Response(
-                new ArrayList<>(),
+                new ArrayList<String>(),
                 com.xivs.dataTransfer.Status.SUCCESS,
-                new HashMap<>(){{
+                new HashMap<String, String>(){{
                     put("id", String.valueOf(w.id));
                     put("name", String.valueOf(w.name));
                     put("salary", String.valueOf(w.salary));
@@ -112,7 +112,7 @@ public class Worker extends DataTransference<Worker> {
                     put("status", String.valueOf(w.status));
 
                 }},
-               new HashMap<>(){{
+               new HashMap<String, DataTransference>(){{
                    put("organization", w.organization);
                    put("coordinates", w.coordinates);
                }}

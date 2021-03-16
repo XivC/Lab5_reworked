@@ -26,7 +26,7 @@ public class LineCoordinatesBuilder {
     }
     public Response build() {
 
-        Coordinates created = (Coordinates) Coordinates.create(new Request(new HashMap<>() {{
+        Coordinates created = (Coordinates) Coordinates.create(new Request(new HashMap<String, String>() {{
             put("x", "100");
             put("y", "1");
         }}, new HashMap<>())).attachments.get("coordinates").getObject();
@@ -38,7 +38,7 @@ public class LineCoordinatesBuilder {
 
                 outputManager.print("x: ");
                 inputManager.nextLine();
-                rq = new Request(new HashMap<>() {{
+                rq = new Request(new HashMap<String, String>() {{
                     put("x", inputManager.getString());
                 }}, new HashMap<>());
                 resp = created.update(rq);
@@ -50,7 +50,7 @@ public class LineCoordinatesBuilder {
             do {
                 outputManager.print("y: ");
                 inputManager.nextLine();
-                rq = new Request(new HashMap<>() {{
+                rq = new Request(new HashMap<String, String>() {{
                     put("y", inputManager.getString());
                 }}, new HashMap<>());
                 resp = created.update(rq);
@@ -60,7 +60,7 @@ public class LineCoordinatesBuilder {
             }
             while (created.update(rq).status.equals(com.xivs.dataTransfer.Status.ERROR));
             this.coordinates = created;
-            return new Response(new ArrayList<>(), Status.SUCCESS, new HashMap<>(), new HashMap<>(){{put("coordinates", created);}});
+            return new Response(new ArrayList<>(), Status.SUCCESS, new HashMap<>(), new HashMap<String, com.xivs.dataTransfer.DataTransference>(){{put("coordinates", created);}});
         }
         catch(IOException ex) {return Response.STANDART_ERROR();}
     }

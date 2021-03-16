@@ -20,7 +20,7 @@ public class RemoveKey extends InterpreterCommand {
         WorkersManager workersManager = this.interpreter.getWorkersManager();
         if(inputManager.getWords().size() < 2 || inputManager.getWords().get(1).isEmpty() ){ outputManager.println("Неверное количество аргументов");return;}
         String key = inputManager.getWords().get(1);
-        Response r = workersManager.remove(new Request(new HashMap<>(){{put("key", key);}}, new HashMap<>()));
+        Response r = workersManager.remove(new Request(new HashMap<String, String>(){{put("key", key);}}, new HashMap<String, com.xivs.dataTransfer.DataTransference>()));
         if(r.status.equals(Status.ERROR)) {outputManager.println(r.messages.toString()); return;}
         outputManager.println("Объект успешно удалён");
 

@@ -34,7 +34,7 @@ public class LineWorkerBuilder{
             Worker created;
 
             Response resp = Worker.create(new Request(
-                    new HashMap<>() {{
+                    new HashMap<String, String>() {{
                         put("name", name);
                         put("salary", salary);
                         put("creationDate", LocalDate.now().toString());
@@ -43,7 +43,7 @@ public class LineWorkerBuilder{
                         put("status", Status.NONE.toString());
 
                     }},
-                    new HashMap<>() {{
+                    new HashMap<String, com.xivs.dataTransfer.DataTransference>() {{
                         put("organization", Organization.DEFAULT);
                         put("coordinates", Coordinates.DEFAULT);
                     }}
@@ -53,7 +53,7 @@ public class LineWorkerBuilder{
                 return Response.STANDART_ERROR();
             }
             created = (Worker) resp.attachments.get("worker").getObject();
-            resp = created.update(new Request(new HashMap<>() {{
+            resp = created.update(new Request(new HashMap<String, String>() {{
                 put("endDate", "");
             }}, new HashMap<>()));
             Request rq;
@@ -62,7 +62,7 @@ public class LineWorkerBuilder{
                 inputManager.nextLine();
                 String endDate = inputManager.getString();
                 if (endDate.isEmpty()) break;
-                resp = created.update(new Request(new HashMap<>() {{
+                resp = created.update(new Request(new HashMap<String, String>() {{
                     put("endDate", endDate);
                 }}, new HashMap<>()));
                 if (resp.status.equals(com.xivs.dataTransfer.Status.ERROR))
@@ -72,7 +72,7 @@ public class LineWorkerBuilder{
                 outputManager.print("Доступные позиции: " + Arrays.asList(Position.values()));
                 outputManager.print("\nВведите позицию: ");
                 inputManager.nextLine();
-                rq = new Request(new HashMap<>() {{
+                rq = new Request(new HashMap<String, String>() {{
                     put("position", inputManager.getString());
                 }}, new HashMap<>());
                 resp = created.update(rq);
@@ -85,7 +85,7 @@ public class LineWorkerBuilder{
                 outputManager.print("\nВведите статус: ");
                 inputManager.nextLine();
                 if (inputManager.getString().isEmpty()) break;
-                rq = new Request(new HashMap<>() {{
+                rq = new Request(new HashMap<String, String>() {{
                     put("status", inputManager.getString());
                 }}, new HashMap<>());
                 resp = created.update(rq);
@@ -119,7 +119,7 @@ public class LineWorkerBuilder{
 
 
             this.worker = created;
-            return new Response(new ArrayList<>(), com.xivs.dataTransfer.Status.SUCCESS, new HashMap<>(), new HashMap<>(){{put("worker", created);}});
+            return new Response(new ArrayList<>(), com.xivs.dataTransfer.Status.SUCCESS, new HashMap<>(), new HashMap<String, com.xivs.dataTransfer.DataTransference>(){{put("worker", created);}});
 
         }
         catch(IOException ex){

@@ -28,7 +28,7 @@ public class LineAddressBuilder {
 
     public Response build() {
         try {
-            Address created = (Address) Address.create(new Request(new HashMap<>() {{
+            Address created = (Address) Address.create(new Request(new HashMap<String, String>() {{
                 put("zipCode", "0000000000");
                 put("street", "no street");
             }}, new HashMap<>())).attachments.get("address").getObject();
@@ -38,7 +38,7 @@ public class LineAddressBuilder {
 
                 outputManager.print("Введите почтовый индекс: ");
                 inputManager.nextLine();
-                rq = new Request(new HashMap<>() {{
+                rq = new Request(new HashMap<String, String>() {{
                     put("zipCode", inputManager.getString());
                 }}, new HashMap<>());
                 resp = created.update(rq);
@@ -51,7 +51,7 @@ public class LineAddressBuilder {
                 outputManager.print("Введите улицу: ");
                 inputManager.nextLine();
                 if (inputManager.getString().isEmpty()) break;
-                rq = new Request(new HashMap<>() {{
+                rq = new Request(new HashMap<String, String>() {{
                     put("street", inputManager.getString());
                 }}, new HashMap<>());
                 resp = created.update(rq);
@@ -62,7 +62,7 @@ public class LineAddressBuilder {
             while (created.update(rq).status.equals(com.xivs.dataTransfer.Status.ERROR));
             this.address = created;
 
-            return new Response(new ArrayList<>(), Status.SUCCESS, new HashMap<>(), new HashMap<>() {{
+            return new Response(new ArrayList<>(), Status.SUCCESS, new HashMap<>(), new HashMap<String, com.xivs.dataTransfer.DataTransference>() {{
                 put("address", created);
             }});
         } catch (IOException ex) {

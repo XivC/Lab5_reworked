@@ -21,7 +21,7 @@ public class PrintFieldAscendingPosition extends InterpreterCommand{
         HashMap<String, Worker> workers;
         Position[] range = {Position.CLEANER, Position.LABORER, Position.BAKER, Position.HEAD_OF_DEPARTMENT};
         for(Position p: range){
-            workers = (HashMap<String, Worker>) workersManager.search(new Request(new HashMap<>(){{put("position", p.toString());}}, new HashMap<>())).attachments.get("workers").getObject();
+            workers = (HashMap<String, Worker>) workersManager.search(new Request(new HashMap<String, String>(){{put("position", p.toString());}}, new HashMap<String, com.xivs.dataTransfer.DataTransference>())).attachments.get("workers").getObject();
             for(String c: workers.keySet()){
                 outputManager.println(c + " - " + p.toString());
             }

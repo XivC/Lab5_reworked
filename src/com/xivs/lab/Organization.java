@@ -49,10 +49,10 @@ public class Organization extends DataTransference<Organization> {
         String type = this.type.toString();
         Address address = this.officialAddress;
         return new Response(
-                new ArrayList<>(),
+                new ArrayList<String>(),
                 Status.SUCCESS,
-                new HashMap<>(){{put("annualTurnover", annualTurnover); put("type", type);}},
-                new HashMap<>(){{put("address", address);}}
+                new HashMap<String, String>(){{put("annualTurnover", annualTurnover); put("type", type);}},
+                new HashMap<String, DataTransference>(){{put("address", address);}}
         );
     }
 
@@ -73,9 +73,9 @@ public class Organization extends DataTransference<Organization> {
         Integer annualTurnover = Integer.valueOf(rq.body.get("annualTurnover"));
         OrganizationType type = Enum.valueOf(OrganizationType.class, rq.body.get("type"));
         Address officialAddress = (Address) rq.attachments.get("address").getObject();
-        HashMap<String, DataTransference> attach = new HashMap<>();
+        HashMap<String, DataTransference> attach = new HashMap<String, DataTransference>();
         attach.put("organization", new Organization(annualTurnover, type, officialAddress));
-        return new Response(new ArrayList<>(), Status.SUCCESS, new HashMap<>(), attach);
+        return new Response(new ArrayList<String>(), Status.SUCCESS, new HashMap<String, String>(), attach);
 
     }
 

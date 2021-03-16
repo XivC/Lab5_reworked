@@ -20,7 +20,7 @@ public class Save extends InterpreterCommand{
         WorkersManager workersManager = this.interpreter.getWorkersManager();
         if(inputManager.getWords().size() < 2 ){ outputManager.println("Неверное количество аргументов");return;}
         String path = inputManager.getWords().get(1);
-        Response r = workersManager.dump(new Request(new HashMap<>(){{put("path", path);}}, new HashMap<>()));
+        Response r = workersManager.dump(new Request(new HashMap<String, String>(){{put("path", path);}}, new HashMap<String, com.xivs.dataTransfer.DataTransference>()));
         outputManager.println(r.messages.toString());
 
 

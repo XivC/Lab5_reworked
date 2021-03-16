@@ -23,7 +23,7 @@ public class Main {
     public static void main(String[] args) {
         WorkersManager manager = new WorkersManager();
         if(args.length == 1){
-            Response r = manager.load(new Request(new HashMap<>(){{put("path", args[0]);}}, new HashMap<>()));
+            Response r = manager.load(new Request(new HashMap<String, String>(){{put("path", args[0]);}}, new HashMap<String, com.xivs.dataTransfer.DataTransference>()));
             System.out.println(r.messages);
         }
         Interpreter inter = new Interpreter(manager, new CommandLineInputManager(), new CommandLineOutManager(), Interpreter.DEFAULT_COMMANDS);

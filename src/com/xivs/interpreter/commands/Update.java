@@ -24,9 +24,9 @@ public class Update extends InterpreterCommand{
         if(inputManager.getWords().size() < 4 || inputManager.getWords().get(1).isEmpty() ){ outputManager.println("Неверное количество аргументов"); return;}
 
         String id = inputManager.getWords().get(1);
-        Response r = workersManager.search(new Request(new HashMap<>(){{
+        Response r = workersManager.search(new Request(new HashMap<String, String>(){{
             put("id", id);
-        }}, new HashMap<>()));
+        }}, new HashMap<String, com.xivs.dataTransfer.DataTransference>()));
         if(r.status.equals(Status.ERROR)) {outputManager.println(r.messages.toString()); return;}
         HashMap<String, Worker> workers = (HashMap<String, Worker>) r.attachments.get("workers").getObject();
         if(workers.isEmpty()){ outputManager.println("Объект с данным id не найден"); return;}
@@ -38,7 +38,7 @@ public class Update extends InterpreterCommand{
         if(build_resp.status.equals(com.xivs.dataTransfer.Status.ERROR)) return;
 
         String finalKey = key;
-        Request create_request = new Request(new HashMap<>(){{
+        Request create_request = new Request(new HashMap<String, String>(){{
             put("key", finalKey);
         }}, build_resp.attachments);
         Response resp = this.interpreter.getWorkersManager().append(create_request);

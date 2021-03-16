@@ -23,7 +23,7 @@ public class Insert extends InterpreterCommand{
         LineWorkerBuilder builder = new LineWorkerBuilder(this.interpreter.getInputManager(), this.interpreter.getOutputManager());
         Response build_resp = builder.build();
         if(build_resp.status.equals(com.xivs.dataTransfer.Status.ERROR)) return;
-        Request create_request = new Request(new HashMap<>(){{
+        Request create_request = new Request(new HashMap<String, String>(){{
             put("key", key);
         }}, build_resp.attachments);
         Response resp = this.interpreter.getWorkersManager().append(create_request);

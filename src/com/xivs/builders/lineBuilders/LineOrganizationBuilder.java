@@ -30,11 +30,11 @@ public class LineOrganizationBuilder {
         try{
         Request rq;
         Response resp;
-        Organization created = (Organization) Organization.create(new Request(new HashMap<>(){{put("annualTurnover", "1");put("type", "NONE");}}, new HashMap<>(){{put("address", Address.DEFAULT);}})).attachments.get("organization").getObject();
+        Organization created = (Organization) Organization.create(new Request(new HashMap<String, String>(){{put("annualTurnover", "1");put("type", "NONE");}}, new HashMap<String, com.xivs.dataTransfer.DataTransference>(){{put("address", Address.DEFAULT);}})).attachments.get("organization").getObject();
         do{
             outputManager.print("Введите годовой оборот: ");
             inputManager.nextLine();
-            rq = new Request(new HashMap<>(){{put("annualTurnover", inputManager.getString());}}, new HashMap<>());
+            rq = new Request(new HashMap<String, String>(){{put("annualTurnover", inputManager.getString());}}, new HashMap<>());
             resp = created.update(rq);
             if(resp.status.equals(com.xivs.dataTransfer.Status.ERROR)) outputManager.println(resp.messages.toString());
 
@@ -45,7 +45,7 @@ public class LineOrganizationBuilder {
             outputManager.print("\nВведите тип организации: ");
             inputManager.nextLine();
             if(inputManager.getString().isEmpty()) break;
-            rq = new Request(new HashMap<>(){{put("type", inputManager.getString());}}, new HashMap<>());
+            rq = new Request(new HashMap<String, String>(){{put("type", inputManager.getString());}}, new HashMap<>());
             resp = created.update(rq);
             if(resp.status.equals(com.xivs.dataTransfer.Status.ERROR)) outputManager.println(resp.messages.toString());
         }
@@ -68,7 +68,7 @@ public class LineOrganizationBuilder {
         }
         this.organization = created;
         Address a = (Address)created.get().attachments.get("address");
-        return new Response(new ArrayList<>(), Status.SUCCESS, new HashMap<>(), new HashMap<>(){{put("organization", created);}});
+        return new Response(new ArrayList<>(), Status.SUCCESS, new HashMap<>(), new HashMap<String, com.xivs.dataTransfer.DataTransference>(){{put("organization", created);}});
     }
     catch(IOException ex){
             return Response.STANDART_ERROR();

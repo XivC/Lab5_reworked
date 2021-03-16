@@ -22,7 +22,7 @@ public class WorkersManager {
     private HashMap<String, Worker> workers;
     public final LocalDateTime creationTime;
     public WorkersManager(){
-        this.workers = new HashMap<>();
+        this.workers = new HashMap<String, Worker>();
         this.creationTime = LocalDateTime.now();
     }
 
@@ -37,15 +37,15 @@ public class WorkersManager {
         String id = String.valueOf( 1 + (long) (Math.random() * (Long.MAX_VALUE-1)));
         Worker w = (Worker)rq.attachments.get("worker").getObject();
         w.update(new Request(
-                new HashMap<>(){{put("id", id);}},
-                new HashMap<>()
+                new HashMap<String, String>(){{put("id", id);}},
+                new HashMap<String, DataTransference>()
         ));
         this.workers.put(key, w);
         return new Response(
-                new ArrayList<>(){{add("Объект успешно добавлен/обновлён");}},
+                new ArrayList<String>(){{add("Объект успешно добавлен/обновлён");}},
                 Status.SUCCESS,
-                new HashMap<>(),
-                new HashMap<>()
+                new HashMap<String, String>(),
+                new HashMap<String, DataTransference>()
         );
     }
 
@@ -57,8 +57,8 @@ public class WorkersManager {
     public Response remove(Request rq){
         if(!validate(rq)) return Response.STANDART_ERROR();
         Worker w = this.workers.remove(rq.body.get("key"));
-        if(w == null) return new Response(new ArrayList<>(){{add("Объект с данным ключом не существует");}}, Status.ERROR, new HashMap<>(), new HashMap<>());
-        return new Response(new ArrayList<>(){{add("Объект {" + w.get().body.get("id") + "} успешно удалён");}}, Status.SUCCESS, new HashMap<>(), new HashMap<>());
+        if(w == null) return new Response(new ArrayList<String>(){{add("Объект с данным ключом не существует");}}, Status.ERROR, new HashMap<String, String>(), new HashMap<String, DataTransference>());
+        return new Response(new ArrayList<String>(){{add("Объект {" + w.get().body.get("id") + "} успешно удалён");}}, Status.SUCCESS, new HashMap<String, String>(), new HashMap<String, DataTransference>());
     }
 
     /**
@@ -77,7 +77,7 @@ public class WorkersManager {
                case "position": for(String q: this.workers.keySet()) if(!(Enum.valueOf(Position.class, w.get(q).get().body.get("position")).equals(Enum.valueOf(Position.class, rq.body.get("position"))))){ w.remove(q);} break;
            }
         }
-        return new Response(new ArrayList<>(), Status.SUCCESS, new HashMap<>(), new HashMap<>(){{put("workers", new DataTransference() {
+        return new Response(new ArrayList<String>(), Status.SUCCESS, new HashMap<String, String>(), new HashMap<String, DataTransference>(){{put("workers", new DataTransference() {
             @Override
             public HashMap<String, Worker> getObject() {
                 return w;
@@ -93,9 +93,9 @@ public class WorkersManager {
     public Response get(Request rq){
         if(!validate(rq)) return Response.STANDART_ERROR();
         String key = rq.body.get("key");
-        if (this.workers.get(key) == null) return new Response(new ArrayList<>(){{add("Объект с данным ключом не существует");}}, Status.ERROR, new HashMap<>(), new HashMap<>());
+        if (this.workers.get(key) == null) return new Response(new ArrayList<String>(){{add("Объект с данным ключом не существует");}}, Status.ERROR, new HashMap<String, String>(), new HashMap<String, DataTransference>());
         Worker w = this.workers.get(key);
-        return new Response(new ArrayList<>(), Status.SUCCESS, new HashMap<>(), new HashMap<>(){{put("worker", w);}});
+        return new Response(new ArrayList<String>(), Status.SUCCESS, new HashMap<String, String>(), new HashMap<String, DataTransference>(){{put("worker", w);}});
     }
 
     /**
@@ -114,11 +114,11 @@ public class WorkersManager {
      * @return
      */
     public Response info(){
-        HashMap<String, String> body = new HashMap<>();
+        HashMap<String, String> body = new HashMap<String, String>();
         body.put("creationTime", creationTime.toString());
         body.put("count", String.valueOf(this.workers.size()));
         body.put("type", "HashMap");
-        return new Response(new ArrayList<>(), Status.SUCCESS, body, new HashMap<>());
+        return new Response(new ArrayList<String>(), Status.SUCCESS, body, new HashMap<String, DataTransference>());
     }
 
     /**
@@ -168,9 +168,11 @@ public class WorkersManager {
             }
             writer.writeEndElement();
             writer.flush();
+            writer.close();
+
         }
-        catch(IOException | XMLStreamException ex){return new Response(new ArrayList<>(){{add("Ошибка при работе с файлом");}}, Status.ERROR, new HashMap<>(), new HashMap<>());}
-        return new Response(new ArrayList<>(){{add("Коллекия собрана в файл " + path);}}, Status.SUCCESS, new HashMap<>(), new HashMap<>());
+        catch(IOException | XMLStreamException ex){return new Response(new ArrayList<String>(){{add("Ошибка при работе с файлом");}}, Status.ERROR, new HashMap<String, String>(), new HashMap<String, DataTransference>());}
+        return new Response(new ArrayList<String>(){{add("Коллекия собрана в файл " + path);}}, Status.SUCCESS, new HashMap<String, String>(), new HashMap<String, DataTransference>());
     }
 
     /**
@@ -179,7 +181,7 @@ public class WorkersManager {
      */
     public Response clear(){
         this.workers.clear();
-        return new Response(new ArrayList<>(), Status.SUCCESS, new HashMap<>(), new HashMap<>());
+        return new Response(new ArrayList<String>(), Status.SUCCESS, new HashMap<String, String>(), new HashMap<String, DataTransference>());
     }
 
     /**
@@ -218,8 +220,8 @@ public class WorkersManager {
 
 
         }
-        catch(IOException | XMLStreamException ex){ex.printStackTrace();return new Response(new ArrayList<>(){{add("Ошибка при работе с файлом");}}, Status.ERROR, new HashMap<>(), new HashMap<>());}
-        return new Response(new ArrayList<>(){{add("Коллекия собрана из файла " + path);}}, Status.SUCCESS, new HashMap<>(), new HashMap<>());
+        catch(IOException | XMLStreamException ex){ex.printStackTrace();return new Response(new ArrayList<String>(){{add("Ошибка при работе с файлом");}}, Status.ERROR, new HashMap<String, String>(), new HashMap<String, DataTransference>());}
+        return new Response(new ArrayList<String>(){{add("Коллекия собрана из файла " + path);}}, Status.SUCCESS, new HashMap<String, String>(), new HashMap<String, DataTransference>());
 
     }
 

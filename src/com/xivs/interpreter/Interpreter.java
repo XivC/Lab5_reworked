@@ -20,7 +20,7 @@ public class Interpreter {
     private OutputManager outputManager;
     private WorkersManager workersManager;
     private boolean endFlag;
-    public static final HashMap<String, Class> DEFAULT_COMMANDS = new HashMap<>(){{
+    public static final HashMap<String, Class> DEFAULT_COMMANDS = new HashMap<String, Class>(){{
         put("help", Help.class);
         put("info", Info.class);
         put("show", Show.class);
@@ -48,7 +48,7 @@ public class Interpreter {
         this.inputManager = inputManager;
         this.outputManager = outputManager;
         this.endFlag = false;
-        this.history = new LinkedList<>();
+        this.history = new LinkedList<String>();
         for(int i = 0; i < 6; i++) this.history.add("");
         this.build();
     }
@@ -98,7 +98,7 @@ public class Interpreter {
      * Перессборка интрепретатора. Пересоздаются экземпляры команд.
      */
     public void build(){
-        HashMap<String, InterpreterCommand> executors = new HashMap<>();
+        HashMap<String, InterpreterCommand> executors = new HashMap<String, InterpreterCommand>();
         for(String c: this.commands.keySet()){
             try {
                 
