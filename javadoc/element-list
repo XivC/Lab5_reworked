@@ -1,0 +1,8 @@
+com.xivs
+com.xivs.builders.lineBuilders
+com.xivs.builders.xmlBuilders
+com.xivs.dataTransfer
+com.xivs.interpreter
+com.xivs.interpreter.commands
+com.xivs.io
+com.xivs.lab
